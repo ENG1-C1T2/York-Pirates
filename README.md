@@ -45,9 +45,9 @@ To set up the project:
 
 2. Open Git Bash if you're on Windows, or just open the terminal if you're on Linux.
 
-3. `cd` into the parent directory where you want to place your copy of the project. For example, if you wanted to project to be located in `~/Projects/York-Pirates`, you would type '`cd ~/Projects`'.
+3. `cd` into the parent directory where you want to place your copy of the project. For example, if you wanted the project to be located in `~/Projects/York-Pirates`, you would type `cd ~/Projects`.
 
-4. Type '`git clone https://github.com/willburden/York-Pirates.git`' to create a local version of the repository in a folder called York-Pirates on your computer.
+4. Type `git clone https://github.com/willburden/York-Pirates.git` to create a local version of the repository in a folder called York-Pirates on your computer.
 
 5. You can now edit the files normally and make commits/push to the repository (see below).
 
@@ -55,11 +55,11 @@ To push your changes to the shared repository:
 
 1. `cd` to the project root, i.e. the `York-Pirates` directory.
 
-2. Type '`git add .`' This 'stages' all your changes by copying them into the index (the set of files that will be committed).
+2. Type `git add .` This 'stages' all your changes by copying them into the index (the set of files that will be committed).
 
-3. Type '`git commit -m "Enter a commit message here"`'. This creates a new commit with your changes.
+3. Type `git commit -m "Enter a commit message here"`. This creates a new commit with your changes.
 
-4. Type '`git push`'. This pushes your commits to the shared, Github-hosted repo.
+4. Type `git push`. This pushes your commits to the shared, Github-hosted repo.
 
 For more advanced usage, read the above guides, or use Google.
 
