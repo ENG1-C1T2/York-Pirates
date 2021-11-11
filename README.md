@@ -59,7 +59,7 @@ To push your changes to the shared repository:
 
 3. Type `git commit -m "Enter a commit message here"`. This creates a new commit with your changes.
 
-4. Type `git push`. This pushes your commits to the shared, Github-hosted repo.
+4. Type `git push`. This pushes your commits to the shared, Github-hosted repo. (It may tell you to set up your details, if so just do what it says.)
 
 For more advanced usage, read the above guides, or use Google.
 
