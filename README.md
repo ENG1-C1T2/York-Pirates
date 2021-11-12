@@ -1,7 +1,7 @@
 # York Pirates!
 
 ## Table of Contents
-1. [About this project](#about-this-product)
+1. [About this project](#about-this-project)
     - [What is it?](#what-is-it)
     - [The team](#the-team)
 2. [Resources](#resources)
@@ -62,6 +62,8 @@ To push your changes to the shared repository:
 4. Type `git push`. This pushes your commits to the shared, Github-hosted repo. (It may tell you to set up your details, if so just do what it says.)
 
 For more advanced usage, read the above guides, or use Google.
+
+**IMPORTANT NOTE**: You generally shouldn't push directly to the `main` branch. Instead, create and checkout a new branch with `git checkout -b <branch-name>`, commit your changes to this new branch, and `git push --set-upstream origin <branch-name>` to create the new branch on the shared repo. You can then create a pull request on the Github website to have your changes merged into the `main` branch. This is to ensure we can check the changes are correct before merging into `main`.
 
 ## Appendices
 
