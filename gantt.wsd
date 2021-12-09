@@ -1,7 +1,0 @@
-@startuml
-
-Project starts the 18th of november 2021
-[Introduction] as [TASK1] lasts 7 days
-[TASK1] is colored in Lavender/LightBlue
-
-@enduml
