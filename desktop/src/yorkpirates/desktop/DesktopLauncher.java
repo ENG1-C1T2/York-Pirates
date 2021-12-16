@@ -1,20 +1,21 @@
 package yorkpirates.desktop;
 
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import yorkpirates.YorkPirates;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
 		// Configure the desktop window.
-		config.title = "York Pirates!";
-		config.width = 1920;
-		config.height = 1080;
-		config.resizable = false;
-		config.fullscreen = true;
+		config.setTitle("York Pirates!");
+		Graphics.DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+		config.setFullscreenMode(displayMode);
+		config.setResizable(false);
+		config.useVsync(true);
 
-		new LwjglApplication(new YorkPirates(), config);
+		new Lwjgl3Application(new YorkPirates(), config);
 	}
 }
