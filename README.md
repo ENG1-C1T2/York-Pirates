@@ -9,6 +9,8 @@
 3. [Appendices](#appendices)
     - [Appendix A: Product brief](#product-brief)
 
+**Important Note: To run this project, you must use Java 8. Later versions will cause weird bugs. Thanks, LibGDX.**
+
 ## About this project
 
 ### What is it?
