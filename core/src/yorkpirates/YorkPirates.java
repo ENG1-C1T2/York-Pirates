@@ -20,14 +20,24 @@ public class YorkPirates extends Game {
 	 */
 	SpriteBatch batch;
 
+	PlayerController playerController;
+	Ship playerShip;
+
 	private GameScreen gameScreen;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 
+		playerController = new PlayerController();
+		playerShip = new Ship(playerController);
+		playerShip.create(this);
+
 		gameScreen = new GameScreen(this);
 		this.setScreen(gameScreen);
+
+
+
 	}
 
 	@Override
@@ -45,5 +55,6 @@ public class YorkPirates extends Game {
 		super.render();
 		batch.dispose();
 		gameScreen.dispose();
+		playerShip.dispose();
 	}
 }
