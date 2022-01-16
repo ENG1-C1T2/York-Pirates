@@ -10,16 +10,18 @@ public class Ship implements GameObject {
     ShipController controller;
     Vector2 velocity;
     int health;
-    Texture shipImageTex;
+    Texture shipTex;
     Rectangle ship;
     float rotation;
     TextureRegion shipImage;
+    Vector2 firingVelocity;
 
     public Ship(ShipController controller) {
         this.controller = controller;
-        //trying 20 health for now - subject to change
         health = 20;
-        velocity = new Vector2(0,0);
+        velocity = new Vector2();
+        firingVelocity = new Vector2();
+
 
     }
 
@@ -28,8 +30,8 @@ public class Ship implements GameObject {
 
     @Override
     public void create(YorkPirates game) {
-        shipImageTex = new Texture(Gdx.files.internal("tempShipImage.png"));
-        shipImage = new TextureRegion(shipImageTex);
+        shipTex = new Texture(Gdx.files.internal("tempShipImage.png"));
+        shipImage = new TextureRegion(shipTex);
 
         ship = new Rectangle();
         ship.width = 100;
@@ -43,6 +45,13 @@ public class Ship implements GameObject {
     public void render() {
         velocity = controller.getVelocity();
 
+
+        //ensure there is always a velocity for cannonballs to use if the player fires while the ship is stationary
+        if ((velocity.x != 0) || (velocity.y != 0)) {
+            firingVelocity.x = velocity.x;
+            firingVelocity.y = velocity.y;
+        }
+
         ship.x += velocity.x * Gdx.graphics.getDeltaTime();
         ship.y += velocity.y * Gdx.graphics.getDeltaTime();
 
@@ -54,7 +63,7 @@ public class Ship implements GameObject {
 
     @Override
     public void dispose() {
-        shipImageTex.dispose();
+        shipTex.dispose();
 
     }
 }
