@@ -14,7 +14,6 @@ public class PlayerController implements ShipController {
         velocity = new Vector2(0,0);
     }
 
-
     @Override
     public void steering() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
@@ -40,7 +39,7 @@ public class PlayerController implements ShipController {
 
     @Override
     public boolean shouldFire() {
-        return false;
+        return Gdx.input.isKeyPressed(Input.Keys.F);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * The logic shared across the entire application.
@@ -20,24 +21,19 @@ public class YorkPirates extends Game {
 	 */
 	SpriteBatch batch;
 
-	PlayerController playerController;
-	Ship playerShip;
+	Array<GameObject> gameObjects;
 
 	private GameScreen gameScreen;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		gameObjects = new Array<>(false, 16, GameObject.class);
 
-		playerController = new PlayerController();
-		playerShip = new Ship(playerController);
-		playerShip.create(this);
+		addObject(new PlayerShip());
 
 		gameScreen = new GameScreen(this);
 		this.setScreen(gameScreen);
-
-
-
 	}
 
 	@Override
@@ -53,8 +49,21 @@ public class YorkPirates extends Game {
 	@Override
 	public void dispose () {
 		super.render();
+		for (GameObject gameObject : gameObjects) {
+			gameObject.dispose();
+		}
+
 		batch.dispose();
 		gameScreen.dispose();
-		playerShip.dispose();
+	}
+
+	public void addObject(GameObject object) {
+		gameObjects.add(object);
+		object.create(this);
+	}
+
+	public void removeObject(GameObject object) {
+		gameObjects.removeValue(object, true);
+		object.dispose();
 	}
 }
