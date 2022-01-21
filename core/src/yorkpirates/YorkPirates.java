@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import yorkpirates.ui.MovementHint;
 
 /**
  * The logic shared across the entire application.
@@ -20,17 +21,23 @@ public class YorkPirates extends Game {
 	 * GameObjects that get their code executed.
 	 */
 	SpriteBatch batch;
+	SpriteBatch hudBatch;
 
 	Array<GameObject> gameObjects;
+	Array<GameObject> hudObjects;
 
 	private GameScreen gameScreen;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		hudBatch = new SpriteBatch();
+
 		gameObjects = new Array<>(false, 16, GameObject.class);
+		hudObjects = new Array<>(false, 16, GameObject.class);
 
 		addObject(new PlayerShip());
+		addHudObject(new MovementHint());
 
 		gameScreen = new GameScreen(this);
 		this.setScreen(gameScreen);
@@ -62,8 +69,18 @@ public class YorkPirates extends Game {
 		object.create(this);
 	}
 
+	public void addHudObject(GameObject object) {
+		hudObjects.add(object);
+		object.create(this);
+	}
+
 	public void removeObject(GameObject object) {
 		gameObjects.removeValue(object, true);
+		object.dispose();
+	}
+
+	public void removeHudObject(GameObject object) {
+		hudObjects.removeValue(object, true);
 		object.dispose();
 	}
 }

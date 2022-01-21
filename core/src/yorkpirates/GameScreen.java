@@ -34,6 +34,15 @@ public class GameScreen implements Screen {
         }
 
         game.batch.end();
+
+        game.hudBatch.begin();
+
+        for (GameObject hudObject : game.hudObjects) {
+            hudObject.update(game);
+            hudObject.render(game.hudBatch);
+        }
+
+        game.hudBatch.end();
     }
 
     @Override

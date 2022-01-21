@@ -13,14 +13,12 @@ public class Cannonball implements GameObject {
     float x;
     float y;
 
-
     public Cannonball (Vector2 velocity, float x, float y) {
         this.velocity = new Vector2(velocity.x * 2, velocity.y * 2);
         this.x = x;
         this.y = y;
         this.cannonballTex = new Texture (Gdx.files.internal("tempCannonball.png"));
     }
-
 
     @Override
     public void create(YorkPirates game) {

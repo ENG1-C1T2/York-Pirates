@@ -1,16 +1,18 @@
-yorkpirates/GameScreen.java
- yorkpirates.GameScreen
-yorkpirates/ShipController.java
- yorkpirates.ShipController
-yorkpirates/PlayerShip.java
- yorkpirates.PlayerShip
-yorkpirates/GameObject.java
- yorkpirates.GameObject
 yorkpirates/YorkPirates.java
  yorkpirates.YorkPirates
-yorkpirates/PlayerController.java
- yorkpirates.PlayerController
+yorkpirates/ShipController.java
+ yorkpirates.ShipController
+yorkpirates/GameScreen.java
+ yorkpirates.GameScreen
 yorkpirates/Ship.java
  yorkpirates.Ship
+yorkpirates/GameObject.java
+ yorkpirates.GameObject
 yorkpirates/Cannonball.java
  yorkpirates.Cannonball
+yorkpirates/ui/MovementHint.java
+ yorkpirates.ui.MovementHint
+yorkpirates/PlayerShip.java
+ yorkpirates.PlayerShip
+yorkpirates/PlayerController.java
+ yorkpirates.PlayerController
