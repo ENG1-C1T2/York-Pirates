@@ -6,12 +6,14 @@ import com.badlogic.gdx.math.Vector2;
 
 public class PlayerController implements ShipController {
     Vector2 velocity;
+    Vector2 firingVelocity;
 
     //speed value arbitrary for now - subject to change with testing
     final int speed = 300;
 
     public PlayerController() {
-        velocity = new Vector2(0,0);
+        velocity = new Vector2();
+        firingVelocity = new Vector2();
     }
 
 
@@ -36,7 +38,16 @@ public class PlayerController implements ShipController {
         else {
             velocity.y = 0;
         }
+
+        //ensure there is always a velocity for cannonballs to use if the player fires while the ship is stationary
+        if ((velocity.x != 0) || (velocity.y != 0)) {
+            firingVelocity.x = velocity.x;
+            firingVelocity.y = velocity.y;
+        }
     }
+
+
+
 
     @Override
     public boolean shouldFire() {
@@ -47,4 +58,12 @@ public class PlayerController implements ShipController {
     public Vector2 getVelocity() {
         return velocity;
     }
+
+    @Override
+    public void takeDamage() {
+
+    }
+
+
+
 }

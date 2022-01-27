@@ -10,4 +10,5 @@ public interface ShipController{
     void steering();
     boolean shouldFire();
     Vector2 getVelocity();
+    void takeDamage();
 }

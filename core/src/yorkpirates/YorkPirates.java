@@ -22,6 +22,8 @@ public class YorkPirates extends Game {
 
 	PlayerController playerController;
 	Ship playerShip;
+	Ship AIShip;
+	AIController AIController;
 
 	private GameScreen gameScreen;
 	
@@ -32,6 +34,10 @@ public class YorkPirates extends Game {
 		playerController = new PlayerController();
 		playerShip = new Ship(playerController);
 		playerShip.create(this);
+
+		AIController = new AIController();
+		AIShip = new Ship(AIController);
+		AIShip.create(this);
 
 		gameScreen = new GameScreen(this);
 		this.setScreen(gameScreen);

@@ -40,9 +40,12 @@ public class GameScreen implements Screen {
 
         game.playerController.steering();
         game.playerShip.render();
+        game.AIController.steering();
+        game.AIShip.render();
 
         game.batch.begin();
         game.batch.draw(game.playerShip.shipImage, game.playerShip.ship.x, game.playerShip.ship.y, 50, 50, 100, 100, 1, 1, game.playerShip.rotation);
+        game.batch.draw(game.AIShip.shipImage, game.AIShip.ship.x, game.AIShip.ship.y, 50, 50, 100, 100, 1, 1, game.AIShip.rotation);
         if (cannonballs.size > 0) {
             for (Cannonball cannonball : cannonballs) {
                 game.batch.draw(cannonballTex, cannonball.x, cannonball.y, 100, 100);
@@ -67,13 +70,14 @@ public class GameScreen implements Screen {
                 iter.remove();
             }
 
+
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.F)) {
             //allow player to fire at most once per second
             if (TimeUtils.nanoTime() - lastFired > 1000000000) {
                 Cannonball cannonball;
-                cannonball = new Cannonball(game.playerShip.firingVelocity, game.playerShip.ship.x, game.playerShip.ship.y);
+                cannonball = new Cannonball(game.playerController.firingVelocity, game.playerShip.ship.x, game.playerShip.ship.y);
                 cannonballs.add(cannonball);
                 cannonball.render();
                 lastFired = TimeUtils.nanoTime();

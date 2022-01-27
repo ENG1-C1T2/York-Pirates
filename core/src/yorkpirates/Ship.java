@@ -14,13 +14,11 @@ public class Ship implements GameObject {
     Rectangle ship;
     float rotation;
     TextureRegion shipImage;
-    Vector2 firingVelocity;
 
     public Ship(ShipController controller) {
         this.controller = controller;
         health = 20;
         velocity = new Vector2();
-        firingVelocity = new Vector2();
 
 
     }
@@ -41,22 +39,35 @@ public class Ship implements GameObject {
 
     }
 
+    public void takeDamage() {
+        health -= 1;
+    }
+
     @Override
     public void render() {
         velocity = controller.getVelocity();
 
 
-        //ensure there is always a velocity for cannonballs to use if the player fires while the ship is stationary
-        if ((velocity.x != 0) || (velocity.y != 0)) {
-            firingVelocity.x = velocity.x;
-            firingVelocity.y = velocity.y;
+
+        if (ship.x < 0) {
+            velocity.x = 300;
+        }
+        if (ship.x > 1920 - 100) {
+            velocity.x = -300;
+        }
+        if (ship.y < 0) {
+            velocity.y = 300;
+        }
+        if (ship.y > 1080 - 100) {
+            velocity.y = -300;
         }
 
         ship.x += velocity.x * Gdx.graphics.getDeltaTime();
         ship.y += velocity.y * Gdx.graphics.getDeltaTime();
 
+
         if (!((velocity.x == 0) & (velocity.y == 0))) {
-            rotation = (float) Math.toDegrees((Math.atan2((double) -velocity.x, (double) velocity.y)));
+            rotation = (float) Math.toDegrees((Math.atan2(-velocity.x, velocity.y)));
         }
     }
 
