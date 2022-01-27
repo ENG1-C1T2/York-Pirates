@@ -10,4 +10,5 @@ public interface GameObject {
     void update(final YorkPirates game);
     void render(SpriteBatch batch);
     void dispose();
+//    int depth();
 }

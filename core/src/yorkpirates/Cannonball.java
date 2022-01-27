@@ -37,7 +37,6 @@ public class Cannonball implements GameObject {
                 x, y, 0,
                 cannonball.width/2, cannonball.height/2, 0)
         ) {
-            System.out.println("Removed cannonball.");
             game.removeObject(this);
         }
     }
