@@ -7,34 +7,29 @@ import com.badlogic.gdx.math.Vector2;
 public class PlayerController implements ShipController {
     Vector2 velocity;
 
-    //speed value arbitrary for now - subject to change with testing
-    final int speed = 300;
-
     public PlayerController() {
         velocity = new Vector2(0,0);
     }
 
     @Override
     public void steering() {
+        velocity = new Vector2(0, 0);
+
         if (leftPressed()) {
-            velocity.x = -speed;
+            velocity.x -= 1;
         }
-        else if (rightPressed()) {
-            velocity.x = speed;
-        }
-        else {
-            velocity.x = 0;
+        if (rightPressed()) {
+            velocity.x += 1;
         }
 
         if (upPressed()) {
-            velocity.y = speed;
+            velocity.y += 1;
         }
-        else if (downPressed()) {
-            velocity.y = -speed;
+        if (downPressed()) {
+            velocity.y -= 1;
         }
-        else {
-            velocity.y = 0;
-        }
+
+        velocity = velocity.nor();
     }
 
     @Override

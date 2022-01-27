@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import yorkpirates.events.Event;
+import yorkpirates.events.EventDispatcher;
 import yorkpirates.ui.MovementHint;
 
 /**
@@ -23,20 +25,30 @@ public class YorkPirates extends Game {
 	SpriteBatch batch;
 	SpriteBatch hudBatch;
 
-	Array<GameObject> gameObjects;
-	Array<GameObject> hudObjects;
+	final Array<GameObject> gameObjects;
+	final Array<GameObject> hudObjects;
+
+	final EventDispatcher events;
+	final PlayerShip player;
+	final Camera camera;
 
 	private GameScreen gameScreen;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		hudBatch = new SpriteBatch();
 
+	public YorkPirates() {
 		gameObjects = new Array<>(false, 16, GameObject.class);
 		hudObjects = new Array<>(false, 16, GameObject.class);
 
-		addObject(new PlayerShip());
+		events = new EventDispatcher();
+		player = new PlayerShip();
+		camera = new Camera();
+	}
+
+	@Override
+	public void create() {
+		batch = new SpriteBatch();
+		hudBatch = new SpriteBatch();
+
+		addObject(player);
 		addHudObject(new MovementHint());
 
 		gameScreen = new GameScreen(this);

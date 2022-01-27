@@ -27,21 +27,24 @@ public class Cannonball implements GameObject {
         cannonball.height = 100;
     }
 
-
     @Override
     public void update(final YorkPirates game) {
         x += velocity.x * Gdx.graphics.getDeltaTime();
         y += velocity.y * Gdx.graphics.getDeltaTime();
 
         //remove and dispose cannonball objects once they have visibly left the screen
-        if ((x < -100) || (x > 1920) || (y < -100) || (y > 1080)) {
+        if (!game.camera.frustum.boundsInFrustum(
+                x, y, 0,
+                cannonball.width/2, cannonball.height/2, 0)
+        ) {
+            System.out.println("Removed cannonball.");
             game.removeObject(this);
         }
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(cannonballTex, x, y, 100, 100);
+        batch.draw(cannonballTex, x - 50, y - 50, 100, 100);
     }
 
     @Override
