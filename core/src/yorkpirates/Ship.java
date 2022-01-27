@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 public class Ship implements GameObject {
     ShipController controller;
     Vector2 velocity;
-    int health;
     Texture shipTex;
     Rectangle ship;
     float rotation;
@@ -17,13 +16,9 @@ public class Ship implements GameObject {
 
     public Ship(ShipController controller) {
         this.controller = controller;
-        health = 20;
         velocity = new Vector2();
 
-
     }
-
-
 
 
     @Override
@@ -39,32 +34,13 @@ public class Ship implements GameObject {
 
     }
 
-    public void takeDamage() {
-        health -= 1;
-    }
 
     @Override
     public void render() {
         velocity = controller.getVelocity();
 
-
-
-        if (ship.x < 0) {
-            velocity.x = 300;
-        }
-        if (ship.x > 1920 - 100) {
-            velocity.x = -300;
-        }
-        if (ship.y < 0) {
-            velocity.y = 300;
-        }
-        if (ship.y > 1080 - 100) {
-            velocity.y = -300;
-        }
-
-        ship.x += velocity.x * Gdx.graphics.getDeltaTime();
-        ship.y += velocity.y * Gdx.graphics.getDeltaTime();
-
+        ship.x = controller.getLocation().x;
+        ship.y = controller.getLocation().y;
 
         if (!((velocity.x == 0) & (velocity.y == 0))) {
             rotation = (float) Math.toDegrees((Math.atan2(-velocity.x, velocity.y)));

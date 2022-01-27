@@ -62,5 +62,6 @@ public class YorkPirates extends Game {
 		batch.dispose();
 		gameScreen.dispose();
 		playerShip.dispose();
+		AIShip.dispose();
 	}
 }
