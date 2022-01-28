@@ -43,7 +43,9 @@ public class Cannonball implements GameObject {
     }
 
     @Override
-    public void render(GameScreen.Batches batches) {
+    public void render(GameScreen game) {
+        GameScreen.Batches batches = game.batches;
+
         batches.world.begin();
         batches.world.draw(cannonballTex, x - 50, y - 50, 100, 100);
         batches.world.end();

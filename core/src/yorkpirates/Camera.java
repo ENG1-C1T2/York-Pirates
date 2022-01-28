@@ -13,8 +13,8 @@ public class Camera extends OrthographicCamera {
     public void trackShip(Ship target) {
         final Rectangle transform = target.getTransform();
 
-        position.x = transform.x + transform.width/2;
-        position.y = transform.y + transform.height/2;
+        position.x = transform.x;
+        position.y = transform.y;
 
         update();
     }

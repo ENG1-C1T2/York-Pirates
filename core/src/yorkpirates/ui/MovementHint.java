@@ -19,7 +19,9 @@ public class MovementHint implements GameObject {
     }
 
     @Override
-    public void render(GameScreen.Batches batches) {
+    public void render(GameScreen game) {
+        GameScreen.Batches batches = game.batches;
+
         batches.screen.begin();
         batches.screen.draw(tex, (float) Gdx.graphics.getWidth() / 2 - 218, 75);
         batches.screen.end();

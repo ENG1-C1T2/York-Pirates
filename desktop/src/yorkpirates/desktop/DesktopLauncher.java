@@ -16,7 +16,8 @@ public class DesktopLauncher {
 		config.setResizable(false);
 		config.useVsync(true);
 
-		assert false;
+		// Set stencil buffer size (other arguments are just their defaults).
+		config.setBackBufferConfig(8, 8, 8, 8, 16, 8, 0);
 
 		new Lwjgl3Application(new YorkPirates(), config);
 	}

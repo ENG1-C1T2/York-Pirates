@@ -58,20 +58,11 @@ public abstract class Ship implements GameObject {
         Vector2 targetPosition = transform.getPosition(new Vector2())
                 .add(velocity);
 
-        final int WORLD_BOUNDS = 1024;
-
-//        prevent the ship from leaving the screen
-        if (targetPosition.x < -WORLD_BOUNDS) {
-            targetPosition.x = -WORLD_BOUNDS;
-        }
-        if (targetPosition.x > WORLD_BOUNDS) {
-            targetPosition.x = WORLD_BOUNDS;
-        }
-        if (targetPosition.y < -WORLD_BOUNDS) {
-            targetPosition.y = -WORLD_BOUNDS;
-        }
-        if (targetPosition.y > WORLD_BOUNDS) {
-            targetPosition.y = WORLD_BOUNDS;
+        // Prevent the ship from leaving the world bounds,
+        // defined as a radius from the centre.
+        final int waterRadius = game.waterSim.getWaterRadius();
+        if (targetPosition.len() > waterRadius) {
+            targetPosition.nor().scl(waterRadius);
         }
 
         transform.setPosition(targetPosition);
@@ -86,10 +77,12 @@ public abstract class Ship implements GameObject {
     }
 
     @Override
-    public void render(GameScreen.Batches batches) {
+    public void render(GameScreen game) {
+        GameScreen.Batches batches = game.batches;
+
         batches.world.begin();
         batches.world.draw(
-            shipImage, transform.x, transform.y,
+            shipImage, transform.x - transform.width/2, transform.y - transform.height/2,
             transform.width/2, transform.height/2, transform.width, transform.height,
             1, 1, rotation
         );
@@ -126,7 +119,7 @@ public abstract class Ship implements GameObject {
         //allow player to fire at most once per second
         if (TimeUtils.nanoTime() - lastFired > 1000000000) {
             Cannonball cannonball;
-            cannonball = new Cannonball(firingVelocity, transform.x + transform.width/2, transform.y + transform.height/2);
+            cannonball = new Cannonball(firingVelocity, transform.x, transform.y);
             game.addObject(cannonball);
             lastFired = TimeUtils.nanoTime();
         }
