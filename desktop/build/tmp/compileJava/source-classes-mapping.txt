@@ -1,2 +1,0 @@
-yorkpirates/desktop/DesktopLauncher.java
- yorkpirates.desktop.DesktopLauncher

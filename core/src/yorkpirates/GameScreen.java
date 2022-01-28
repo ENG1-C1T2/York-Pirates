@@ -1,87 +1,104 @@
 package yorkpirates;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
-
-import java.util.Iterator;
+import yorkpirates.events.EventDispatcher;
+import yorkpirates.objects.GameObject;
+import yorkpirates.objects.PlayerShip;
+import yorkpirates.ui.MovementHint;
 
 /**
  * The main gameplay screen where the player controls their ship.
  */
 public class GameScreen implements Screen {
-    private final YorkPirates game;
+    public final EventDispatcher events;
+    public final PlayerShip player;
+    public final Camera camera;
 
-    Array<Cannonball> cannonballs;
-    Texture cannonballTex;
-    long lastFired;
+    private final Batches batches;
 
-    public GameScreen(final YorkPirates game) {
-        this.game = game;
+    private final Array<GameObject> gameObjects;
+    private final Array<GameObject> hudObjects;
 
-        cannonballs = new Array<>();
-        cannonballTex = new Texture (Gdx.files.internal("tempCannonball.png"));
-        lastFired = 1000000000;
-    }
+    private final Texture background;
 
-    @Override
-    public void show() {
+    public GameScreen() {
+        events = new EventDispatcher();
+        player = new PlayerShip();
+        camera = new Camera();
 
+        background = new Texture(Gdx.files.internal("ocean.jpg"));
+        background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+        batches = new Batches();
+
+        gameObjects = new Array<>(false, 16, GameObject.class);
+        hudObjects = new Array<>(false, 16, GameObject.class);
+
+        addObject(player);
+        addHudObject(new MovementHint());
     }
 
     @Override
     public void render(float delta) {
-        // Fill the screen with a blue colour.
-        ScreenUtils.clear(0, 0.6f, 1, 1);
+        camera.trackShip(player);
 
-        game.playerController.steering();
-        game.playerShip.render();
+        // Fill the screen with the ocean image.
+        batches.screen.begin();
+        batches.screen.draw(background,
+                0, 0,
+                (int) camera.position.x, (int) -camera.position.y,
+                Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batches.screen.end();
 
-        game.batch.begin();
-        game.batch.draw(game.playerShip.shipImage, game.playerShip.ship.x, game.playerShip.ship.y, 50, 50, 100, 100, 1, 1, game.playerShip.rotation);
-        if (cannonballs.size > 0) {
-            for (Cannonball cannonball : cannonballs) {
-                game.batch.draw(cannonballTex, cannonball.x, cannonball.y, 100, 100);
-            }
-        }
-        game.batch.end();
-
-
-
-
-        Iterator<Cannonball> iter = cannonballs.iterator();
-        while (iter.hasNext()) {
-            Cannonball cannonball = iter.next();
-            cannonball.render();
-            //remove and dispose cannonball objects once they have visibly left the screen
-            if ((cannonball.x < 0 - 100) || (cannonball.x > 1920)) {
-                cannonball.dispose();
-                iter.remove();
-            }
-            if ((cannonball.y < 0 - 100) || (cannonball.y > 1080)) {
-                cannonball.dispose();
-                iter.remove();
-            }
-
+        for (GameObject gameObject : gameObjects) {
+            gameObject.update(this);
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-            //allow player to fire at most once per second
-            if (TimeUtils.nanoTime() - lastFired > 1000000000) {
-                Cannonball cannonball;
-                cannonball = new Cannonball(game.playerShip.firingVelocity, game.playerShip.ship.x, game.playerShip.ship.y);
-                cannonballs.add(cannonball);
-                cannonball.render();
-                lastFired = TimeUtils.nanoTime();
-            }
+        batches.world.setProjectionMatrix(camera.combined);
+        batches.world.begin();
+
+        for (GameObject gameObject : gameObjects) {
+            gameObject.render(batches);
         }
 
+        batches.world.end();
 
+        batches.screen.begin();
 
+        for (GameObject hudObject : hudObjects) {
+            hudObject.update(this);
+            hudObject.render(batches);
+        }
+
+        batches.screen.end();
+    }
+
+    public void addObject(GameObject object) {
+        gameObjects.add(object);
+        object.create(this);
+    }
+
+    public void addHudObject(GameObject object) {
+        hudObjects.add(object);
+        object.create(this);
+    }
+
+    public void removeObject(GameObject object) {
+        gameObjects.removeValue(object, true);
+        object.dispose();
+    }
+
+    public void removeHudObject(GameObject object) {
+        hudObjects.removeValue(object, true);
+        object.dispose();
+    }
+
+    @Override
+    public void show() {
 
     }
 
@@ -107,6 +124,29 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        cannonballTex.dispose();
+        for (GameObject gameObject : gameObjects) {
+            gameObject.dispose();
+        }
+
+        for (GameObject hudObject: hudObjects) {
+            hudObject.dispose();
+        }
+
+        batches.dispose();
+    }
+
+    public static class Batches {
+        public final SpriteBatch world;
+        public final SpriteBatch screen;
+
+        private Batches() {
+            world = new SpriteBatch();
+            screen = new SpriteBatch();
+        }
+
+        private void dispose() {
+            world.dispose();
+            screen.dispose();
+        }
     }
 }

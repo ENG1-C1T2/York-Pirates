@@ -16,6 +16,8 @@ public class DesktopLauncher {
 		config.setResizable(false);
 		config.useVsync(true);
 
+		assert false;
+
 		new Lwjgl3Application(new YorkPirates(), config);
 	}
 }
