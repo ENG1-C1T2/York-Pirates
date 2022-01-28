@@ -26,9 +26,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        game.camera.position.x = game.player.ship.x + game.player.ship.width/2;
-        game.camera.position.y = game.player.ship.y + game.player.ship.height/2;
-        game.camera.update();
+        game.camera.trackShip(game.player);
 
         // Fill the screen with the ocean image.
         game.hudBatch.begin();

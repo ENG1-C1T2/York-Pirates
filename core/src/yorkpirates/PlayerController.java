@@ -5,15 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
 public class PlayerController implements ShipController {
-    Vector2 velocity;
-
-    public PlayerController() {
-        velocity = new Vector2(0,0);
-    }
-
     @Override
-    public void steering() {
-        velocity = new Vector2(0, 0);
+    public Vector2 calculateVelocity() {
+        Vector2 velocity = new Vector2(0, 0);
 
         if (leftPressed()) {
             velocity.x -= 1;
@@ -29,17 +23,12 @@ public class PlayerController implements ShipController {
             velocity.y -= 1;
         }
 
-        velocity = velocity.nor();
+        return velocity.nor();
     }
 
     @Override
     public boolean shouldFire() {
         return Gdx.input.isKeyPressed(Input.Keys.F);
-    }
-
-    @Override
-    public Vector2 getVelocity() {
-        return velocity;
     }
 
     private boolean upPressed() {

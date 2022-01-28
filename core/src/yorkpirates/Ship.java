@@ -13,7 +13,7 @@ public abstract class Ship implements GameObject {
     Vector2 velocity;
     int health;
     Texture shipTex;
-    Rectangle ship;
+    Rectangle transform;
     float rotation;
     TextureRegion shipImage;
     Vector2 firingVelocity;
@@ -34,19 +34,18 @@ public abstract class Ship implements GameObject {
         velocity = new Vector2();
         firingVelocity = new Vector2(0, speed);
 
-        ship = new Rectangle();
-        ship.width = 100;
-        ship.height = 200;
-        ship.x = 0;
-        ship.y = 0;
+        transform = new Rectangle();
+        transform.width = 100;
+        transform.height = 200;
+        transform.x = 0;
+        transform.y = 0;
 
         lastFired = 1000000000;
     }
 
     @Override
     public void update(final YorkPirates game) {
-        controller.steering();
-        velocity = controller.getVelocity().scl(speed);
+        velocity = controller.calculateVelocity().scl(speed);
 
         //ensure there is always a velocity for cannonballs to use if the player fires while the ship is stationary
         if ((velocity.x != 0) || (velocity.y != 0)) {
@@ -54,8 +53,8 @@ public abstract class Ship implements GameObject {
             firingVelocity.y = velocity.y;
         }
 
-        ship.x += velocity.x * Gdx.graphics.getDeltaTime();
-        ship.y += velocity.y * Gdx.graphics.getDeltaTime();
+        transform.x += velocity.x * Gdx.graphics.getDeltaTime();
+        transform.y += velocity.y * Gdx.graphics.getDeltaTime();
 
         if (!((velocity.x == 0) & (velocity.y == 0))) {
             rotation = (float) Math.toDegrees((Math.atan2(-velocity.x, velocity.y)));
@@ -69,8 +68,8 @@ public abstract class Ship implements GameObject {
     @Override
     public void render(SpriteBatch batch) {
         batch.draw(
-            shipImage, ship.x, ship.y,
-            ship.width/2, ship.height/2, ship.width, ship.height,
+            shipImage, transform.x, transform.y,
+            transform.width/2, transform.height/2, transform.width, transform.height,
             1, 1, rotation
         );
     }
@@ -80,11 +79,11 @@ public abstract class Ship implements GameObject {
         shipTex.dispose();
     }
 
-    public void tryToFire(final YorkPirates game) {
+    private void tryToFire(final YorkPirates game) {
         //allow player to fire at most once per second
         if (TimeUtils.nanoTime() - lastFired > 1000000000) {
             Cannonball cannonball;
-            cannonball = new Cannonball(firingVelocity, ship.x + ship.width/2, ship.y + ship.height/2);
+            cannonball = new Cannonball(firingVelocity, transform.x + transform.width/2, transform.y + transform.height/2);
             game.addObject(cannonball);
             lastFired = TimeUtils.nanoTime();
         }
