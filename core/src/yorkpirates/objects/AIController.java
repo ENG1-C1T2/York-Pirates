@@ -51,7 +51,7 @@ public class AIController implements ShipController {
             velocity.y = -1;
         }
 
-        return velocity.nor();
+        return velocity;
     }
 
     @Override

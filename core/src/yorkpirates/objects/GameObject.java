@@ -7,8 +7,8 @@ import yorkpirates.GameScreen;
  */
 public interface GameObject {
     void create(final GameScreen game);
-    void update(final GameScreen game, final float delta);
+    void update(final GameScreen game);
     void render(final GameScreen.Batches batches);
     void dispose();
-    int getDepth();
+//    int depth();
 }

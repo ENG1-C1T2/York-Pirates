@@ -1,15 +1,18 @@
 package yorkpirates;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import yorkpirates.events.EventDispatcher;
+import yorkpirates.events.SurvivedFiveSeconds;
 import yorkpirates.objects.AIShip;
 import yorkpirates.objects.GameObject;
 import yorkpirates.objects.PlayerShip;
 import yorkpirates.ui.MovementHint;
+import com.badlogic.gdx.utils.TimeUtils;
 
 /**
  * The main gameplay screen where the player controls their ship.
@@ -18,17 +21,32 @@ public class GameScreen implements Screen {
     public final EventDispatcher events;
     public final PlayerShip player;
     public final Camera camera;
+    public GameStats stats;
 
     private final Batches batches;
 
+    private final SurvivedFiveSeconds SurvivedFiveSeconds;
+
     private final Array<GameObject> gameObjects;
+    private final Array<GameObject> hudObjects;
 
     private final Texture background;
+
+    private long pointTimer;
 
     public GameScreen() {
         events = new EventDispatcher();
         player = new PlayerShip();
         camera = new Camera();
+        stats = new GameStats();
+
+        SurvivedFiveSeconds = new SurvivedFiveSeconds();
+
+        events.register(SurvivedFiveSeconds, stats);
+
+
+
+        pointTimer = TimeUtils.nanoTime();
 
         background = new Texture(Gdx.files.internal("ocean.jpg"));
         background.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
@@ -36,15 +54,21 @@ public class GameScreen implements Screen {
         batches = new Batches();
 
         gameObjects = new Array<>(false, 16, GameObject.class);
+        hudObjects = new Array<>(false, 16, GameObject.class);
 
         addObject(player);
         addObject(new AIShip());
-        addObject(new AIShip());
-        addObject(new MovementHint());
+        addHudObject(new MovementHint());
     }
 
     @Override
     public void render(float delta) {
+        if ((TimeUtils.nanoTime() - pointTimer)/1000000000 > 5) {
+            events.trigger(SurvivedFiveSeconds);
+            pointTimer = TimeUtils.nanoTime();
+        }
+
+
         camera.trackShip(player);
 
         // Fill the screen with the ocean image.
@@ -56,32 +80,45 @@ public class GameScreen implements Screen {
         batches.screen.end();
 
         for (GameObject gameObject : gameObjects) {
-            gameObject.update(this, delta);
+            gameObject.update(this);
         }
 
         batches.world.setProjectionMatrix(camera.combined);
+        batches.world.begin();
 
         for (GameObject gameObject : gameObjects) {
             gameObject.render(batches);
         }
+
+        batches.world.end();
+
+        batches.screen.begin();
+
+        for (GameObject hudObject : hudObjects) {
+            hudObject.update(this);
+            hudObject.render(batches);
+        }
+
+        batches.screen.end();
     }
 
     public void addObject(GameObject object) {
-        final int depth = object.getDepth();
+        gameObjects.add(object);
+        object.create(this);
+    }
 
-        int i;
-        for (i = 0; i < gameObjects.size; i++) {
-            if (gameObjects.get(i).getDepth() <= depth) {
-                break;
-            }
-        }
-        gameObjects.insert(i, object);
-
+    public void addHudObject(GameObject object) {
+        hudObjects.add(object);
         object.create(this);
     }
 
     public void removeObject(GameObject object) {
         gameObjects.removeValue(object, true);
+        object.dispose();
+    }
+
+    public void removeHudObject(GameObject object) {
+        hudObjects.removeValue(object, true);
         object.dispose();
     }
 
@@ -114,6 +151,10 @@ public class GameScreen implements Screen {
     public void dispose() {
         for (GameObject gameObject : gameObjects) {
             gameObject.dispose();
+        }
+
+        for (GameObject hudObject: hudObjects) {
+            hudObject.dispose();
         }
 
         batches.dispose();

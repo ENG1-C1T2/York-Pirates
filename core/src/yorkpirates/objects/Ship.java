@@ -22,7 +22,7 @@ public abstract class Ship implements GameObject {
     private TextureRegion shipImage;
 
     //speed value arbitrary for now - subject to change with testing
-    protected int speed = 400;
+    protected int speed = 300;
 
     protected abstract ShipController createController();
 
@@ -46,8 +46,8 @@ public abstract class Ship implements GameObject {
     }
 
     @Override
-    public void update(final GameScreen game, final float delta) {
-        velocity = new Vector2(controller.calculateVelocity()).scl(speed * delta);
+    public void update(final GameScreen game) {
+        velocity = new Vector2(controller.calculateVelocity()).scl(speed);
 
         //ensure there is always a velocity for cannonballs to use if the player fires while the ship is stationary
         if ((velocity.x != 0) || (velocity.y != 0)) {
@@ -56,23 +56,23 @@ public abstract class Ship implements GameObject {
         }
 
         Vector2 targetPosition = transform.getPosition(new Vector2())
-                .add(velocity);
+                .add(velocity.scl(Gdx.graphics.getDeltaTime()));
 
         final int WORLD_BOUNDS = 1024;
 
-//        prevent the ship from leaving the screen
-        if (targetPosition.x < -WORLD_BOUNDS) {
-            targetPosition.x = -WORLD_BOUNDS;
-        }
-        if (targetPosition.x > WORLD_BOUNDS) {
-            targetPosition.x = WORLD_BOUNDS;
-        }
-        if (targetPosition.y < -WORLD_BOUNDS) {
-            targetPosition.y = -WORLD_BOUNDS;
-        }
-        if (targetPosition.y > WORLD_BOUNDS) {
-            targetPosition.y = WORLD_BOUNDS;
-        }
+        //prevent the ship from leaving the screen
+//        if (targetPosition.x < -WORLD_BOUNDS) {
+//            targetPosition.x = -WORLD_BOUNDS;
+//        }
+//        if (targetPosition.x > WORLD_BOUNDS) {
+//            targetPosition.x = WORLD_BOUNDS;
+//        }
+//        if (targetPosition.y < -WORLD_BOUNDS) {
+//            targetPosition.y = -WORLD_BOUNDS;
+//        }
+//        if (targetPosition.y > WORLD_BOUNDS) {
+//            targetPosition.y = WORLD_BOUNDS;
+//        }
 
         transform.setPosition(targetPosition);
 
@@ -87,13 +87,11 @@ public abstract class Ship implements GameObject {
 
     @Override
     public void render(GameScreen.Batches batches) {
-        batches.world.begin();
         batches.world.draw(
             shipImage, transform.x, transform.y,
             transform.width/2, transform.height/2, transform.width, transform.height,
             1, 1, rotation
         );
-        batches.world.end();
     }
 
     @Override
@@ -130,10 +128,5 @@ public abstract class Ship implements GameObject {
             game.addObject(cannonball);
             lastFired = TimeUtils.nanoTime();
         }
-    }
-
-    @Override
-    public int getDepth() {
-        return 0;
     }
 }

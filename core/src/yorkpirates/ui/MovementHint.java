@@ -14,24 +14,17 @@ public class MovementHint implements GameObject {
     }
 
     @Override
-    public void update(GameScreen game, final float delta) {
+    public void update(GameScreen game) {
 
     }
 
     @Override
     public void render(GameScreen.Batches batches) {
-        batches.screen.begin();
         batches.screen.draw(tex, (float) Gdx.graphics.getWidth() / 2 - 218, 75);
-        batches.screen.end();
     }
 
     @Override
     public void dispose() {
         tex.dispose();
-    }
-
-    @Override
-    public int getDepth() {
-        return -100;
     }
 }
