@@ -46,8 +46,50 @@ public class GameScreen implements Screen {
 
         batches.world.setProjectionMatrix(camera.combined);
 
-        for (GameObject gameObject : gameObjects) {
-            gameObject.render(this);
+        renderObjects();
+    }
+
+    private void renderObjects() {
+        // Insertion-sort objects with the same depth,
+        // based on their y value if they have one.
+        final Array<HasTransform> orderedLayer = new Array<>(gameObjects.size);
+        final Array<GameObject> unorderedLayer = new Array<>(gameObjects.size);
+        for (int i = 0; i < gameObjects.size; i++) {
+            orderedLayer.clear();
+            unorderedLayer.clear();
+
+            int j;
+            for (j = 0; i + j < gameObjects.size; j++) {
+                GameObject current = gameObjects.get(i + j);
+
+                if (current.getDepth() != gameObjects.get(i).getDepth()) {
+                    break;
+                }
+
+                if (current instanceof HasTransform) {
+                    HasTransform currentWithTransform = (HasTransform) current;
+
+                    int k;
+                    for (k = 0; k < orderedLayer.size; k++) {
+                        if (orderedLayer.get(k).getTransform().y <= currentWithTransform.getTransform().y) {
+                            break;
+                        }
+                    }
+                    orderedLayer.insert(k, currentWithTransform);
+                } else {
+                    unorderedLayer.add(current);
+                }
+            }
+
+            for (HasTransform gameObject : orderedLayer) {
+                ((GameObject) gameObject).render(this);
+            }
+
+            for (GameObject gameObject : unorderedLayer) {
+                gameObject.render(this);
+            }
+
+            i += j - 1;
         }
     }
 

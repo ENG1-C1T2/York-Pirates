@@ -6,37 +6,33 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import yorkpirates.GameScreen;
 
-public class Cannonball implements GameObject {
+public class Cannonball implements GameObject, HasTransform {
     Vector2 velocity;
-    Rectangle cannonball;
     Texture cannonballTex;
-    float x;
-    float y;
+
+    private final Rectangle transform;
 
     public Cannonball (Vector2 velocity, float x, float y) {
         this.velocity = new Vector2(velocity).nor();
-        this.x = x;
-        this.y = y;
         this.cannonballTex = new Texture (Gdx.files.internal("tempCannonball.png"));
+        this.transform = new Rectangle(x, y, 100, 100);
     }
 
     @Override
     public void create(GameScreen game) {
-        cannonball = new Rectangle();
-        cannonball.width = 100;
-        cannonball.height = 100;
+
     }
 
     @Override
     public void update(final GameScreen game, final float delta) {
         int speed = 800;
-        x += velocity.x * speed * delta;
-        y += velocity.y * speed * delta;
+        transform.x += velocity.x * speed * delta;
+        transform.y += velocity.y * speed * delta;
 
         //remove and dispose cannonball objects once they have visibly left the screen
         if (!game.camera.frustum.boundsInFrustum(
-                x, y, 0,
-                cannonball.width/2, cannonball.height/2, 0)
+                transform.x, transform.y, 0,
+                transform.width/2, transform.height/2, 0)
         ) {
             game.removeObject(this);
         }
@@ -47,7 +43,7 @@ public class Cannonball implements GameObject {
         GameScreen.Batches batches = game.batches;
 
         batches.world.begin();
-        batches.world.draw(cannonballTex, x - 50, y - 50, 100, 100);
+        batches.world.draw(cannonballTex, transform.x - transform.width/2, transform.y - transform.height/2);
         batches.world.end();
     }
 
@@ -58,6 +54,11 @@ public class Cannonball implements GameObject {
 
     @Override
     public int getDepth() {
-        return 50;
+        return 0;
+    }
+
+    @Override
+    public Rectangle getTransform() {
+        return transform;
     }
 }
