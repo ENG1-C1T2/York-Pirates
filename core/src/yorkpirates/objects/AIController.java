@@ -13,7 +13,6 @@ public class AIController implements ShipController {
         health = 20;
         location = new Vector2();
         velocity = new Vector2(0, 1);
-        System.out.println(velocity);
     }
 
     @Override
