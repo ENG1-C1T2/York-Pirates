@@ -26,7 +26,7 @@ public class EventDispatcher {
      */
     public void register(Event event, EventListener listener) {
         if (!listeners.containsKey(event)) {
-            listeners.put(event, new HashSet<EventListener>());
+            listeners.put(event, new HashSet<>());
         }
 
         listeners.get(event).add(listener);

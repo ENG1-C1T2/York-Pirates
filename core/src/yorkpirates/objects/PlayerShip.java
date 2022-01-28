@@ -1,4 +1,4 @@
-package yorkpirates;
+package yorkpirates.objects;
 
 public class PlayerShip extends Ship {
     @Override
