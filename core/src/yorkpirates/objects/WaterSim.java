@@ -28,21 +28,9 @@ public class WaterSim implements GameObject {
     private int waterRadius;
 
     private final ShapeRenderer shapeRenderer;
-    private final Texture ocean;
-    private final Texture wetBeach;
-    private final Texture dryBeach;
 
     public WaterSim() {
         shapeRenderer = new ShapeRenderer();
-
-        ocean = new Texture(Gdx.files.internal("ocean.jpg"));
-        ocean.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-
-        dryBeach = new Texture(Gdx.files.internal("dryBeach.jpg"));
-        dryBeach.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-
-        wetBeach = new Texture(Gdx.files.internal("wetBeach.jpg"));
-        wetBeach.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
     }
 
     public int getWaterRadius() {
@@ -71,19 +59,22 @@ public class WaterSim implements GameObject {
     public void render(GameScreen game) {
         GameScreen.Batches batches = game.batches;
 
+        final Color water = new Color(0.122f, 0.406f, 0.725f, 1f);
+        final Color wetSand = new Color(0.789f, 0.702f, 0.461f, 1f);
+        final Color drySand = new Color(0.848f, 0.755f, 0.495f, 1f);
+
+        Gdx.gl20.glClear(GL20.GL_STENCIL_BUFFER_BIT);
+
         // Fill the screen with the ocean image.
-        batches.screen.begin();
-        batches.screen.draw(ocean,
-                0, 0,
-                (int) game.camera.position.x, (int) -game.camera.position.y,
-                Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batches.screen.end();
+        shapeRenderer.setProjectionMatrix(batches.screen.getProjectionMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(water);
+        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.end();
 
         // Fill everywhere except the water with the wet sand image.
         shapeRenderer.setProjectionMatrix(batches.world.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-        Gdx.gl20.glClear(GL20.GL_STENCIL_BUFFER_BIT);
 
         Gdx.gl20.glEnable(GL20.GL_STENCIL_TEST);
         Gdx.gl20.glStencilFunc(GL20.GL_ALWAYS, 0x1, 0xffffffff);
@@ -94,39 +85,39 @@ public class WaterSim implements GameObject {
         shapeRenderer.circle(0, 0, getWaterRadius());
         shapeRenderer.end();
 
-        batches.screen.begin();
+        shapeRenderer.setProjectionMatrix(batches.screen.getProjectionMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         Gdx.gl20.glColorMask(true, true, true, true);
         Gdx.gl20.glStencilOp(GL20.GL_KEEP, GL20.GL_KEEP, GL20.GL_KEEP);
         Gdx.gl20.glStencilFunc(GL20.GL_NOTEQUAL, 0x1, 0xff);
 
-        batches.screen.draw(wetBeach,
-                0, 0,
-                (int) game.camera.position.x, (int) -game.camera.position.y,
-                Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batches.screen.end();
+        shapeRenderer.setColor(wetSand);
+        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.end();
 
         // Fill everywhere except the maximum water area with the dry sand image.
+        shapeRenderer.setProjectionMatrix(batches.world.getProjectionMatrix());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         Gdx.gl20.glStencilFunc(GL20.GL_ALWAYS, 0x1, 0xffffffff);
         Gdx.gl20.glStencilOp(GL20.GL_REPLACE, GL20.GL_REPLACE, GL20.GL_REPLACE);
         Gdx.gl20.glColorMask(false, false, false, false);
 
+        shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(0, 0, VISUAL_MAX_RADIUS);
         shapeRenderer.end();
 
-        batches.screen.begin();
+        shapeRenderer.setProjectionMatrix(batches.screen.getProjectionMatrix());
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         Gdx.gl20.glColorMask(true, true, true, true);
         Gdx.gl20.glStencilOp(GL20.GL_KEEP, GL20.GL_KEEP, GL20.GL_KEEP);
         Gdx.gl20.glStencilFunc(GL20.GL_NOTEQUAL, 0x1, 0xff);
 
-        batches.screen.draw(dryBeach,
-                0, 0,
-                (int) game.camera.position.x, (int) -game.camera.position.y,
-                Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batches.screen.end();
+        shapeRenderer.setColor(drySand);
+        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.end();
 
         Gdx.gl20.glDisable(GL20.GL_STENCIL_TEST);
     }
@@ -134,9 +125,6 @@ public class WaterSim implements GameObject {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-        ocean.dispose();
-        wetBeach.dispose();
-        dryBeach.dispose();
     }
 
     @Override

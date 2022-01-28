@@ -27,13 +27,14 @@ public class GameScreen implements Screen {
 
         batches = new Batches();
 
-        gameObjects = new Array<>(false, 16, GameObject.class);
+        gameObjects = new Array<>(true, 16, GameObject.class);
 
         addObject(waterSim);
         addObject(player);
         addObject(new AIShip());
         addObject(new AIShip());
         addObject(new MovementHint());
+        addObject(new FabricFilter());
     }
 
     @Override

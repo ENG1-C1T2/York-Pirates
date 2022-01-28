@@ -14,8 +14,8 @@ public class Cannonball implements GameObject, HasTransform {
 
     public Cannonball (Vector2 velocity, float x, float y) {
         this.velocity = new Vector2(velocity).nor();
-        this.cannonballTex = new Texture (Gdx.files.internal("tempCannonball.png"));
-        this.transform = new Rectangle(x, y, 100, 100);
+        this.cannonballTex = new Texture (Gdx.files.internal("cannonball.png"));
+        this.transform = new Rectangle(x, y, 20, 20);
     }
 
     @Override
@@ -43,7 +43,9 @@ public class Cannonball implements GameObject, HasTransform {
         GameScreen.Batches batches = game.batches;
 
         batches.world.begin();
-        batches.world.draw(cannonballTex, transform.x - transform.width/2, transform.y - transform.height/2);
+        batches.world.draw(cannonballTex,
+                transform.x - transform.width/2, transform.y - transform.height/2,
+                transform.width, transform.height);
         batches.world.end();
     }
 

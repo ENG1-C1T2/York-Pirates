@@ -1,6 +1,7 @@
 package yorkpirates.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import yorkpirates.GameScreen;
 import yorkpirates.objects.GameObject;
@@ -22,6 +23,8 @@ public class MovementHint implements GameObject {
     public void render(GameScreen game) {
         GameScreen.Batches batches = game.batches;
 
+        batches.screen.enableBlending();
+        batches.screen.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
         batches.screen.begin();
         batches.screen.draw(tex, (float) Gdx.graphics.getWidth() / 2 - 218, 75);
         batches.screen.end();
@@ -34,6 +37,6 @@ public class MovementHint implements GameObject {
 
     @Override
     public int getDepth() {
-        return -100;
+        return -1000;
     }
 }
