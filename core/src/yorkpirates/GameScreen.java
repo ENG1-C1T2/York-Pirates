@@ -22,7 +22,6 @@ public class GameScreen implements Screen {
     private final Batches batches;
 
     private final Array<GameObject> gameObjects;
-    private final Array<GameObject> hudObjects;
 
     private final Texture background;
 
@@ -37,11 +36,11 @@ public class GameScreen implements Screen {
         batches = new Batches();
 
         gameObjects = new Array<>(false, 16, GameObject.class);
-        hudObjects = new Array<>(false, 16, GameObject.class);
 
         addObject(player);
         addObject(new AIShip());
-        addHudObject(new MovementHint());
+        addObject(new AIShip());
+        addObject(new MovementHint());
     }
 
     @Override
@@ -57,45 +56,32 @@ public class GameScreen implements Screen {
         batches.screen.end();
 
         for (GameObject gameObject : gameObjects) {
-            gameObject.update(this);
+            gameObject.update(this, delta);
         }
 
         batches.world.setProjectionMatrix(camera.combined);
-        batches.world.begin();
 
         for (GameObject gameObject : gameObjects) {
             gameObject.render(batches);
         }
-
-        batches.world.end();
-
-        batches.screen.begin();
-
-        for (GameObject hudObject : hudObjects) {
-            hudObject.update(this);
-            hudObject.render(batches);
-        }
-
-        batches.screen.end();
     }
 
     public void addObject(GameObject object) {
-        gameObjects.add(object);
-        object.create(this);
-    }
+        final int depth = object.getDepth();
 
-    public void addHudObject(GameObject object) {
-        hudObjects.add(object);
+        int i;
+        for (i = 0; i < gameObjects.size; i++) {
+            if (gameObjects.get(i).getDepth() <= depth) {
+                break;
+            }
+        }
+        gameObjects.insert(i, object);
+
         object.create(this);
     }
 
     public void removeObject(GameObject object) {
         gameObjects.removeValue(object, true);
-        object.dispose();
-    }
-
-    public void removeHudObject(GameObject object) {
-        hudObjects.removeValue(object, true);
         object.dispose();
     }
 
@@ -128,10 +114,6 @@ public class GameScreen implements Screen {
     public void dispose() {
         for (GameObject gameObject : gameObjects) {
             gameObject.dispose();
-        }
-
-        for (GameObject hudObject: hudObjects) {
-            hudObject.dispose();
         }
 
         batches.dispose();
