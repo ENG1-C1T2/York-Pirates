@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import yorkpirates.events.EventDispatcher;
+import yorkpirates.objects.AIShip;
 import yorkpirates.objects.GameObject;
 import yorkpirates.objects.PlayerShip;
 import yorkpirates.ui.MovementHint;
@@ -39,6 +40,7 @@ public class GameScreen implements Screen {
         hudObjects = new Array<>(false, 16, GameObject.class);
 
         addObject(player);
+        addObject(new AIShip());
         addHudObject(new MovementHint());
     }
 

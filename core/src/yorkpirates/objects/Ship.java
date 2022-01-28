@@ -22,7 +22,7 @@ public abstract class Ship implements GameObject {
     private TextureRegion shipImage;
 
     //speed value arbitrary for now - subject to change with testing
-    private final int speed = 300;
+    protected int speed = 300;
 
     protected abstract ShipController createController();
 
@@ -47,7 +47,7 @@ public abstract class Ship implements GameObject {
 
     @Override
     public void update(final GameScreen game) {
-        velocity = controller.calculateVelocity().scl(speed);
+        velocity = new Vector2(controller.calculateVelocity()).scl(speed);
 
         //ensure there is always a velocity for cannonballs to use if the player fires while the ship is stationary
         if ((velocity.x != 0) || (velocity.y != 0)) {
@@ -55,8 +55,26 @@ public abstract class Ship implements GameObject {
             firingVelocity.y = velocity.y;
         }
 
-        transform.x += velocity.x * Gdx.graphics.getDeltaTime();
-        transform.y += velocity.y * Gdx.graphics.getDeltaTime();
+        Vector2 targetPosition = transform.getPosition(new Vector2())
+                .add(velocity.scl(Gdx.graphics.getDeltaTime()));
+
+        final int WORLD_BOUNDS = 1024;
+
+        //prevent the ship from leaving the screen
+//        if (targetPosition.x < -WORLD_BOUNDS) {
+//            targetPosition.x = -WORLD_BOUNDS;
+//        }
+//        if (targetPosition.x > WORLD_BOUNDS) {
+//            targetPosition.x = WORLD_BOUNDS;
+//        }
+//        if (targetPosition.y < -WORLD_BOUNDS) {
+//            targetPosition.y = -WORLD_BOUNDS;
+//        }
+//        if (targetPosition.y > WORLD_BOUNDS) {
+//            targetPosition.y = WORLD_BOUNDS;
+//        }
+
+        transform.setPosition(targetPosition);
 
         if (!((velocity.x == 0) & (velocity.y == 0))) {
             rotation = (float) Math.toDegrees((Math.atan2(-velocity.x, velocity.y)));
