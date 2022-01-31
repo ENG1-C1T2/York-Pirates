@@ -16,6 +16,7 @@ public class GameScreen implements Screen {
     public final Camera camera;
     public final WaterSim waterSim;
     public final Batches batches;
+    public final College[] colleges;
 
     private final Array<GameObject> gameObjects;
 
@@ -29,11 +30,29 @@ public class GameScreen implements Screen {
 
         gameObjects = new Array<>(true, 16, GameObject.class);
 
+        int rad = 3000;//waterSim.getWaterRadius();
+        colleges = new College[]{new College("Your College", -60, 150),
+                new College("Goodricke", -0.48*rad, 0.5*rad),
+                new College("Derwent", 0.6*rad, 0.28*rad),
+                new College("Constantine", -0.32*rad, -0.48*rad),
+                new College("Vanbrugh", 0.44*rad, -0.56*rad)};
+
+        //13,13 = -11,11
+        //17,36 = -8,-12
+        //39,18 = 15,6
+        //35,38 = 11,-14
+        //       /50 * minrad
+
         addObject(waterSim);
+        for (College college : colleges) {
+            addObject(college);
+        }
+
         addObject(player);
         addObject(new AIShip());
         addObject(new AIShip());
         addObject(new MovementHint());
+        //addObject(new Text("Hello world",-60,180,20));
         addObject(new FabricFilter());
     }
 
