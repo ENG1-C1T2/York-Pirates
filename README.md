@@ -21,7 +21,6 @@ This project was started by Cohort 1, Team 2 of the 2021/22 ENG1 module. The mem
 
 - Will Burden ([@willburden](http://github.com/willburden))
 - Kieron Jones
-- Ruiqi Liu
 - Adam Nicholson
 - Tabitha Oldfield
 - Camran Qadeer
