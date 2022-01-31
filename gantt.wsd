@@ -3,15 +3,32 @@
 title Oasis Gantt Chart
 
 Project starts the 18th of november 2021
-[Team Interface] lasts 7 days and is colored in LightBlue
+[Team Introduction] lasts 7 days and is colored in LightBlue
 
-[Website Mockup] starts 2021-11-25 and lasts 7 days
+[Website Setup] starts 2021-11-25 and lasts 7 days and is colored in LightBlue
 
-[Customer Requirements Meeting] starts 2021-11-26
+[Customer Requirements Meeting] starts 2021-11-26 and is colored in DarkRed
 [Customer Requirements Meeting] lasts 1 day
 
 [Role Elicitation] starts 2021-11-25 
-[Cam, Kieron: Website, Gannt Chart, Requirements] starts at [Role Elicitation]'s end and lasts 14 days
-[Will, Tabitha, Adam: Class UML Diagrams] starts at [Role Elicitation]'s end and lasts 14 days
+[Cam: Website, Gannt Chart, Requirements (a)] starts at [Role Elicitation]'s end and lasts 7 days and is colored in LightBlue
+[Kieron: Requirements (b)] starts at [Role Elicitation]'s end and lasts 7 days and is colored in LightBlue
+[Will, Tabitha, Adam: Class Diagrams v1] starts at [Role Elicitation]'s end and lasts 7 days and is colored in DarkRed
 
+[Role Elicitation 2] starts at 2021-12-2
+[Documentation: Method Selection and Planning] starts at [Role Elicitation 2]'s end and lasts 7 days and is colored in LightBlue
+[Implementation: libGDX Installation and Setup] starts at [Role Elicitation 2]'s end and lasts 7 days and is colored in LightBlue
+[Documentation: Abstract Architecture] starts at [Documentation: Method Selection and Planning]'s end and lasts 7 days and is colored in DarkRed
+
+[Christmas Break] starts at 2021-12-10 and lasts 22 days and is colored in Green
+
+[Role Elicitation 3] starts 2021-12-31
+[Implementation: Map and Camera] starts at [Role Elicitation 3]'s end and lasts 7 days and is colored in LightBlue
+[Implementation: Ship Movement, Cannons] starts at [Role Elicitation 3]'s end and lasts 7 days and is colored in DarkRed
+[Documentation: Risk Assessment and Mitigation] starts at [Role Elicitation 3]'s end and lasts 7 days and is colored in LightBlue
+
+[Implementation: Colleges and Objectives] starts at 2022-1-8 and lasts 14 days and is colored in DarkRed
+[Documentation: Concrete Architecture     ] starts at 2022-1-13 and lasts 7 days and is colored in DarkRed
+
+[Finalisation] starts at 2022-1-20 and lasts 14 days
 @enduml
