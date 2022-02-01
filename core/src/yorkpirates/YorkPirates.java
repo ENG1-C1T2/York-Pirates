@@ -14,12 +14,18 @@ import com.badlogic.gdx.Input;
 public class YorkPirates extends Game {
 	private GameScreen gameScreen;
 
+	/**
+	 * Create a new GameScreen.
+	 */
 	@Override
 	public void create() {
 		gameScreen = new GameScreen();
 		this.setScreen(gameScreen);
 	}
 
+	/**
+	 * Call Game render function and exit the game when the escape key is pressed.
+	 */
 	@Override
 	public void render () {
 		super.render();
@@ -27,6 +33,13 @@ public class YorkPirates extends Game {
 		// Exit the game when Escape is pressed.
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			Gdx.app.exit();
+		}
+
+		// Restart the game when r is pressed.
+		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+			gameScreen.dispose();
+			gameScreen = new GameScreen();
+			this.setScreen(gameScreen);
 		}
 	}
 	

@@ -1,5 +1,7 @@
 package yorkpirates.events;
 
+import yorkpirates.GameScreen;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -8,12 +10,17 @@ import java.util.HashSet;
  * for sending an event to all of them.
  */
 public class EventDispatcher {
-    private final HashMap<Event, HashSet<EventListener>> listeners;
+    private final GameScreen game;
+    private final HashMap<String, HashSet<EventListener>> listeners;
 
     /**
      * Creates a new EventDispatcher with no listeners.
+     *
+     * @param game The active GameScreen.
      */
-    public EventDispatcher() {
+    public EventDispatcher(GameScreen game) {
+        this.game = game;
+
         this.listeners = new HashMap<>();
     }
 
@@ -21,15 +28,15 @@ public class EventDispatcher {
      * Registers a listener with this dispatcher, so it will
      * receive event callbacks triggered on this dispatcher.
      *
-     * @param event The event to listen for.
+     * @param eventName The name of the event to listen for.
      * @param listener The listener to register.
      */
-    public void register(Event event, EventListener listener) {
-        if (!listeners.containsKey(event)) {
-            listeners.put(event, new HashSet<>());
+    public void register(String eventName, EventListener listener) {
+        if (!listeners.containsKey(eventName)) {
+            listeners.put(eventName, new HashSet<>());
         }
 
-        listeners.get(event).add(listener);
+        listeners.get(eventName).add(listener);
     }
 
     /**
@@ -38,8 +45,10 @@ public class EventDispatcher {
      * @param event The event instance to send.
      */
     public void trigger(Event event) {
-        for (EventListener listener : listeners.get(event)) {
-            listener.on(event);
+        if (listeners.containsKey(event.getName())) {
+            for (EventListener listener : listeners.get(event.getName())) {
+                listener.on(game, event);
+            }
         }
     }
 }

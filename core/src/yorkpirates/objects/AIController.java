@@ -3,18 +3,31 @@ package yorkpirates.objects;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 
+/**
+ * Controller for AI-controlled ships.
+ *
+ */
 public class AIController implements ShipController {
     private final Vector2 velocity;
     long lastVelChange = 200000000;
     int health;
     Vector2 location;
 
+    /**
+     * Creates a new AIController.
+     */
     public AIController() {
         health = 20;
         location = new Vector2();
         velocity = new Vector2(0, 1);
     }
 
+    /**
+     * Calculates at random the velocity that the corresponding ship should use, and prevents the ship leaving
+     * the edge of the game world.
+     *
+     * @return Vector representing the x and y components of the ship's velocity.
+     */
     @Override
     public Vector2 calculateVelocity() {
 //        ensure AI ship changes its velocity at most once every two seconds
@@ -36,7 +49,7 @@ public class AIController implements ShipController {
             lastVelChange = TimeUtils.nanoTime();
         }
 
-        //prevent the ship from leaving the screen
+        //prevent the ship from leaving the screen (boundary coordinates)
         if (location.x < 0) {
             velocity.x = 1;
         }
