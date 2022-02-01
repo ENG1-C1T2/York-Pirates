@@ -37,7 +37,7 @@ public class MovementHint implements GameObject {
         batches.screen.enableBlending();
         batches.screen.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
         batches.screen.begin();
-        batches.screen.draw(tex, 1350, 75);
+        batches.screen.draw(tex, Gdx.graphics.getWidth() - 570, 75);
         batches.screen.end();
     }
 
