@@ -43,6 +43,7 @@ public class Cannonball implements GameObject, HasTransform {
         transform.x += velocity.x * speed * delta;
         transform.y += velocity.y * speed * delta;
 
+        //remove and dispose cannonball objects once they have visibly left the screen
         if (!game.camera.frustum.boundsInFrustum(
                 transform.x, transform.y, 0,
                 transform.width/2, transform.height/2, 0)

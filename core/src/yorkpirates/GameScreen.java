@@ -1,9 +1,13 @@
 package yorkpirates;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import yorkpirates.events.EventDispatcher;
+import yorkpirates.events.GameWon;
+import yorkpirates.events.GameWonListener;
 import yorkpirates.objects.*;
 import yorkpirates.ui.EventReactions;
 import yorkpirates.ui.MovementHint;
@@ -20,10 +24,13 @@ public class GameScreen implements Screen {
     public final Camera camera;
     public final WaterSim waterSim;
     public final Batches batches;
+    public final GameWonListener gameWonListener;
+    public final GameWon gameWon;
     public final College[] colleges;
     public final GameStats stats;
 
     private final Array<GameObject> gameObjects;
+    private Boolean paused;
 
     public GameScreen() {
         events = new EventDispatcher(this);
@@ -32,7 +39,13 @@ public class GameScreen implements Screen {
         waterSim = new WaterSim();
         stats = new GameStats(events);
 
+        gameWon = new GameWon();
+        gameWonListener = new GameWonListener(this);
+        events.register(gameWon, gameWonListener);
+
         batches = new Batches();
+
+        paused = false;
 
         gameObjects = new Array<>(true, 16, GameObject.class);
 
@@ -70,6 +83,15 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float delta) {
+        if (paused) {
+            if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+                paused = false;
+            } else {
+                delta = 0;
+            }
+        }
+
+
         camera.trackShip(player);
 
         for (GameObject gameObject : gameObjects) {
@@ -172,7 +194,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        paused = true;
     }
 
     @Override

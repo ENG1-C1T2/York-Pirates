@@ -2,10 +2,11 @@ package yorkpirates;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import yorkpirates.objects.Ship;
 
-
+/**
+ * The camera used by our game, that tracks the player's ship.
+ */
 public class Camera extends OrthographicCamera {
     public Camera() {
         super(1920, 1080);
