@@ -28,7 +28,7 @@ public class PlayerController implements ShipController {
 
     @Override
     public boolean shouldFire() {
-        return Gdx.input.isKeyPressed(Input.Keys.F);
+        return Gdx.input.isButtonPressed(Input.Buttons.LEFT);
     }
 
     private boolean upPressed() {
