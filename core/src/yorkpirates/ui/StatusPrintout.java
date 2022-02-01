@@ -3,6 +3,7 @@ package yorkpirates.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Align;
 import yorkpirates.GameScreen;
+import yorkpirates.events.Event;
 
 /**
  * A Printout that displays general information about the
@@ -24,5 +25,11 @@ public class StatusPrintout extends Printout {
                         game.player.getHealth(), game.stats.getPoints(), game.stats.getPlunder()
                 )
         );
+
+        game.events.register("GameWon", this::onGameWon);
+    }
+
+    private void onGameWon(GameScreen game, Event event) {
+        game.removeObject(this);
     }
 }

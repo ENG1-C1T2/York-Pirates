@@ -75,7 +75,7 @@ public class QuestManager implements GameObject {
 
         int x, attempts = 0;
         do {
-            x = RANDOM.nextInt(2);
+            x = RANDOM.nextInt(3);
 
             if (++attempts > MAX_ATTEMPTS) {
                 return null;
@@ -88,6 +88,8 @@ public class QuestManager implements GameObject {
             case 0:
                 return new KillXEnemies(game.events);
             case 1:
+                return new SurviveXSeconds(game.events);
+            case 2:
             default:
                 return new DestroyXColleges(game.events);
         }

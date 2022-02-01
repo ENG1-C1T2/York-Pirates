@@ -30,6 +30,7 @@ public class EventReactions implements GameObject {
     public void create(GameScreen game) {
         game.events.register("EarnedPoints", this::onEarnedPoints);
         game.events.register("EarnedPlunder", this::onEarnedPlunder);
+        game.events.register("GameWon", this::onGameWon);
     }
 
     @Override
@@ -102,5 +103,9 @@ public class EventReactions implements GameObject {
         ));
 
         lastTime = TimeUtils.millis();
+    }
+
+    private void onGameWon(GameScreen game, Event event) {
+        game.removeObject(this);
     }
 }

@@ -6,8 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import yorkpirates.events.EventDispatcher;
-import yorkpirates.events.GameWon;
-import yorkpirates.events.GameWonListener;
+import yorkpirates.objects.WinTrigger;
 import yorkpirates.objects.*;
 import yorkpirates.ui.EventReactions;
 import yorkpirates.ui.MovementHint;
@@ -24,8 +23,6 @@ public class GameScreen implements Screen {
     public final Camera camera;
     public final WaterSim waterSim;
     public final Batches batches;
-    public final GameWonListener gameWonListener;
-    public final GameWon gameWon;
     public final College[] colleges;
     public final GameStats stats;
 
@@ -38,10 +35,6 @@ public class GameScreen implements Screen {
         camera = new Camera();
         waterSim = new WaterSim();
         stats = new GameStats(events);
-
-        gameWon = new GameWon();
-        gameWonListener = new GameWonListener(this);
-        events.register(gameWon, gameWonListener);
 
         batches = new Batches();
 
@@ -74,6 +67,7 @@ public class GameScreen implements Screen {
         addObject(new StatusPrintout(this));
         addObject(new EventReactions());
         addObject(new SurvivalTimer());
+        addObject(new WinTrigger());
 
         addObject(new DevPowers());
     }

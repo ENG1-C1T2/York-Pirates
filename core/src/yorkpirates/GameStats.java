@@ -2,12 +2,18 @@ package yorkpirates;
 
 import yorkpirates.events.*;
 
+/**
+ * The class responsible for holding general information about the game state,
+ * such as the player's points, plunder, and number of completed quests.
+ */
 public class GameStats {
     private int points;
     private int plunder;
     private int completedQuests;
 
+    /** The number of quests the player must complete to win. */
     public final int requiredQuests = 3;
+    /** The maximum number of quests that may be active at once. */
     public final int simultaneousQuests = 2;
 
     public GameStats(EventDispatcher events) {
@@ -24,14 +30,23 @@ public class GameStats {
         events.register("EarnedPlunder", this::onEarnedPlunder);
     }
 
+    /**
+     * Get the number of points the player has.
+     */
     public int getPoints() {
         return points;
     }
 
+    /**
+     * Get the number of plunder the player has.
+     */
     public int getPlunder() {
         return plunder;
     }
 
+    /**
+     * Get the number of quests the player has completed.
+     */
     public int getCompletedQuests() {
         return completedQuests;
     }
