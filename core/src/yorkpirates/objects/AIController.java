@@ -46,7 +46,7 @@ public class AIController implements ShipController {
             lastVelChange = TimeUtils.nanoTime();
         }
 
-        //prevent the ship from leaving the screen
+        //prevent the ship from leaving the screen (boundary coordinates)
         if (location.x < 0) {
             velocity.x = 1;
         }

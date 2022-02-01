@@ -15,6 +15,7 @@ public class DesktopLauncher {
 		config.setFullscreenMode(displayMode);
 		config.setResizable(false);
 		config.useVsync(true);
+		//Not compatible with macOS currently, special run configuration needed
 
 		// Set stencil buffer size (other arguments are just their defaults).
 		config.setBackBufferConfig(8, 8, 8, 8, 16, 8, 0);
