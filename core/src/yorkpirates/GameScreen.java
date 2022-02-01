@@ -2,6 +2,7 @@ package yorkpirates;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import yorkpirates.events.EventDispatcher;
 import yorkpirates.objects.*;
@@ -30,18 +31,12 @@ public class GameScreen implements Screen {
 
         gameObjects = new Array<>(true, 16, GameObject.class);
 
-        int rad = 3000;//waterSim.getWaterRadius();
+        int rad = 3000; //world radius
         colleges = new College[]{new College("Your College", -60, 150, 0),
                 new College("Goodricke", -0.48*rad, 0.5*rad, 2),
                 new College("Derwent", 0.6*rad, 0.28*rad, 2),
                 new College("Constantine", -0.32*rad, -0.48*rad, 2),
                 new College("Vanbrugh", 0.44*rad, -0.56*rad, 2)};
-
-        //13,13 = -11,11
-        //17,36 = -8,-12
-        //39,18 = 15,6
-        //35,38 = 11,-14
-        //       /50 * minrad
 
         addObject(waterSim);
         for (College college : colleges) {
@@ -52,7 +47,6 @@ public class GameScreen implements Screen {
         addObject(new AIShip());
         addObject(new AIShip());
         addObject(new MovementHint());
-        //addObject(new Text("Hello world",-60,180,20));
         addObject(new FabricFilter());
     }
 
