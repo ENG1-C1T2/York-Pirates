@@ -28,6 +28,13 @@ public class YorkPirates extends Game {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			Gdx.app.exit();
 		}
+
+		// Restart the game when r is pressed.
+		if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+			gameScreen.dispose();
+			gameScreen = new GameScreen();
+			this.setScreen(gameScreen);
+		}
 	}
 	
 	@Override
