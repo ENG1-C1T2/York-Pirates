@@ -37,11 +37,11 @@ public class GameScreen implements Screen {
         gameObjects = new Array<>(true, 16, GameObject.class);
 
         int rad = waterSim.getMinRadius();
-        colleges = new College[]{new College("Your College", -60, 150),
-                new College("Goodricke", -0.48*rad, 0.5*rad),
-                new College("Derwent", 0.6*rad, 0.28*rad),
-                new College("Constantine", -0.32*rad, -0.48*rad),
-                new College("Vanbrugh", 0.44*rad, -0.56*rad)};
+        colleges = new College[]{new College("Your College", -60, 150, 0),
+                new College("Goodricke", -0.48*rad, 0.5*rad, 2),
+                new College("Derwent", 0.6*rad, 0.28*rad, 2),
+                new College("Constantine", -0.32*rad, -0.48*rad, 2),
+                new College("Vanbrugh", 0.44*rad, -0.56*rad, 2)};
 
         addObject(waterSim);
         for (College college : colleges) {
