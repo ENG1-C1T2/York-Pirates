@@ -14,12 +14,18 @@ import com.badlogic.gdx.Input;
 public class YorkPirates extends Game {
 	private GameScreen gameScreen;
 
+	/**
+	 * Create a new GameScreen.
+	 */
 	@Override
 	public void create() {
 		gameScreen = new GameScreen();
 		this.setScreen(gameScreen);
 	}
 
+	/**
+	 * Call Game render function and exit the game when the escape key is pressed.
+	 */
 	@Override
 	public void render () {
 		super.render();

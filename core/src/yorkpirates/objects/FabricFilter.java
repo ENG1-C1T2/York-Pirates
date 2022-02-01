@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import yorkpirates.GameScreen;
 
+/**
+ * Fabric filter to be used on the background of the game world.
+ */
 public class FabricFilter implements GameObject {
     private final Texture fabric;
 

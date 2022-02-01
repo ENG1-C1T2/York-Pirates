@@ -65,6 +65,9 @@ public class GameScreen implements Screen {
         addObject(new DevPowers());
     }
 
+    /**
+     * Update and render all GameObjects in the GameScreen.
+     */
     @Override
     public void render(float delta) {
         camera.trackShip(player);
@@ -78,6 +81,9 @@ public class GameScreen implements Screen {
         renderObjects();
     }
 
+    /**
+     * Render all GameObjects in the GameScreen.
+     */
     private void renderObjects() {
         // Insertion-sort objects with the same depth,
         // based on their y value if they have one.
@@ -127,6 +133,10 @@ public class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Create a new GameObject.
+     * @param object The object to be created.
+     */
     public void addObject(GameObject object) {
         final int depth = object.getDepth();
 
@@ -141,6 +151,10 @@ public class GameScreen implements Screen {
         object.create(this);
     }
 
+    /**
+     * Remove a GameObject
+     * @param object The object to be removed.
+     */
     public void removeObject(GameObject object) {
         gameObjects.removeValue(object, true);
         object.dispose();
@@ -180,6 +194,9 @@ public class GameScreen implements Screen {
         batches.dispose();
     }
 
+    /**
+     * SpriteBatches to be used for rendering objects in the game.
+     */
     public static class Batches {
         public final SpriteBatch world;
         public final SpriteBatch screen;

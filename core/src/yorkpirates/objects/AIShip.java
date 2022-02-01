@@ -1,5 +1,8 @@
 package yorkpirates.objects;
 
+/**
+ * Any ship controlled by an AIController.
+ */
 public class AIShip extends Ship {
     {
         speed = 200;

@@ -1,5 +1,8 @@
 package yorkpirates.events;
 
+/**
+ * Any event that might need to be tracked during the game.
+ */
 public interface Event {
     /**
      * Get the name of this class.

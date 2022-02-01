@@ -3,11 +3,13 @@ package yorkpirates.objects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
 import yorkpirates.GameScreen;
 
+/**
+ * Water simulation for the background of the game world.
+ */
 @SuppressWarnings("FieldCanBeLocal") // Don't want to recalculate them every frame.
 public class WaterSim implements GameObject {
     private final int TIDE_RADIUS = 300;
@@ -132,6 +134,11 @@ public class WaterSim implements GameObject {
         return 500;
     }
 
+    /**
+     * Get the minimum radius of the water.
+     *
+     * @return The minimum radius the water will ever have.
+     */
     public int getMinRadius() {
         return MIN_RADIUS;
     }
