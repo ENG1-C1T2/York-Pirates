@@ -92,7 +92,7 @@ public abstract class Ship implements GameObject, HasTransform {
 
         // Prevent the ship from overlapping colleges
         for (int i = 0; i<game.colleges.length; i++) {
-            College currentCollege = game.colleges[i];
+            Rectangle currentCollege = game.colleges[i].transform;
             if (targetPosition.x >= currentCollege.x-(float)currentCollege.width/2 &&
                     targetPosition.x <= currentCollege.x+currentCollege.width &&
                     targetPosition.y >= currentCollege.y-(float)currentCollege.height/2 &&
