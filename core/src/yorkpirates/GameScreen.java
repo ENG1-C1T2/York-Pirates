@@ -5,7 +5,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import yorkpirates.events.EventDispatcher;
 import yorkpirates.objects.*;
+import yorkpirates.ui.EventReactions;
 import yorkpirates.ui.MovementHint;
+import yorkpirates.quests.QuestManager;
+import yorkpirates.ui.QuestPrintout;
+import yorkpirates.ui.StatusPrintout;
 
 /**
  * The main gameplay screen where the player controls their ship.
@@ -17,31 +21,27 @@ public class GameScreen implements Screen {
     public final WaterSim waterSim;
     public final Batches batches;
     public final College[] colleges;
+    public final GameStats stats;
 
     private final Array<GameObject> gameObjects;
 
     public GameScreen() {
-        events = new EventDispatcher();
+        events = new EventDispatcher(this);
         player = new PlayerShip();
         camera = new Camera();
         waterSim = new WaterSim();
+        stats = new GameStats(events);
 
         batches = new Batches();
 
         gameObjects = new Array<>(true, 16, GameObject.class);
 
-        int rad = 3000;//waterSim.getWaterRadius();
+        int rad = waterSim.getMinRadius();
         colleges = new College[]{new College("Your College", -60, 150),
                 new College("Goodricke", -0.48*rad, 0.5*rad),
                 new College("Derwent", 0.6*rad, 0.28*rad),
                 new College("Constantine", -0.32*rad, -0.48*rad),
                 new College("Vanbrugh", 0.44*rad, -0.56*rad)};
-
-        //13,13 = -11,11
-        //17,36 = -8,-12
-        //39,18 = 15,6
-        //35,38 = 11,-14
-        //       /50 * minrad
 
         addObject(waterSim);
         for (College college : colleges) {
@@ -52,8 +52,17 @@ public class GameScreen implements Screen {
         addObject(new AIShip());
         addObject(new AIShip());
         addObject(new MovementHint());
-        //addObject(new Text("Hello world",-60,180,20));
         addObject(new FabricFilter());
+
+        QuestManager questManager = new QuestManager();
+        addObject(questManager);
+        addObject(new QuestPrintout(this, questManager));
+
+        addObject(new StatusPrintout(this));
+        addObject(new EventReactions());
+        addObject(new SurvivalTimer());
+
+        addObject(new DevPowers());
     }
 
     @Override
@@ -72,6 +81,11 @@ public class GameScreen implements Screen {
     private void renderObjects() {
         // Insertion-sort objects with the same depth,
         // based on their y value if they have one.
+        // This allows behaviour such as UI elements always staying on top
+        // of other objects, while also enabling more dynamic, 3d-like interactions
+        // such as ships rendering in order of their 'proximity' to the camera,
+        // i.e. which has the lower y value.
+
         final Array<HasTransform> orderedLayer = new Array<>(gameObjects.size);
         final Array<GameObject> unorderedLayer = new Array<>(gameObjects.size);
         for (int i = 0; i < gameObjects.size; i++) {

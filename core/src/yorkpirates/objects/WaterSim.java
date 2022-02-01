@@ -131,4 +131,8 @@ public class WaterSim implements GameObject {
     public int getDepth() {
         return 500;
     }
+
+    public int getMinRadius() {
+        return MIN_RADIUS;
+    }
 }
