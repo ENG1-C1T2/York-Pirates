@@ -7,6 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import yorkpirates.GameScreen;
 
+/**
+ * Ship object for AI-controlled ships and player-controlled ships.
+ */
 public abstract class Ship implements GameObject, HasTransform {
     private int health;
 
@@ -22,11 +25,14 @@ public abstract class Ship implements GameObject, HasTransform {
     private int textureIndex;
     private Vector2[] firingPoints;
 
-    // Speed value arbitrary for now - subject to change with testing
     protected int speed = 400;
 
     protected abstract ShipController createController();
 
+    /**
+     * Initialise fields for a Ship object.
+     * @param game Main GameScreen
+     */
     @Override
     public void create(GameScreen game) {
         loadTextures();
@@ -45,6 +51,9 @@ public abstract class Ship implements GameObject, HasTransform {
         lastFired = 1000000000;
     }
 
+    /**
+     * Load the textures required to render the Ship object.
+     */
     private void loadTextures() {
         final String prefix = "ship/", postfix = ".png";
         final String[] texturePaths = {
@@ -76,6 +85,12 @@ public abstract class Ship implements GameObject, HasTransform {
         textureIndex = 0;
     }
 
+    /**
+     * Update velocity, prevent ship leaving the edge of the game world, update velocity at which Cannonballs
+     * should be fired,update the ship's rotation and control whether the ship should fire.
+     * @param game Main GameScreen
+     * @param delta float value to update velocity.
+     */
     @Override
     public void update(final GameScreen game, final float delta) {
         velocity = new Vector2(controller.calculateVelocity()).scl(speed * delta);
@@ -108,6 +123,10 @@ public abstract class Ship implements GameObject, HasTransform {
         }
     }
 
+    /**
+     * Render the Ship object in the corresponding GameScreen.
+     * @param game Main GameScreen
+     */
     @Override
     public void render(GameScreen game) {
         GameScreen.Batches batches = game.batches;
@@ -128,6 +147,9 @@ public abstract class Ship implements GameObject, HasTransform {
         batches.world.end();
     }
 
+    /**
+     * Update the texture to match the Ship's rotation.
+     */
     private void updateTextureIndex() {
         textureIndex = Math.round(rotation * textures.length / 360);
     }
@@ -161,6 +183,10 @@ public abstract class Ship implements GameObject, HasTransform {
         return new Vector2(velocity);
     }
 
+    /**
+     * Fire a Cannonball if at least one second has elapsed since the last time a Cannonball was fired.
+     * @param game Main GameScreen
+     */
     private void tryToFire(final GameScreen game) {
         //allow player to fire at most once per second
         if (TimeUtils.nanoTime() - lastFired > 1000000000) {

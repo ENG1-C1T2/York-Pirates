@@ -2,6 +2,9 @@ package yorkpirates.objects;
 
 import yorkpirates.GameScreen;
 
+/**
+ * Any ship controlled by a PlayerController.
+ */
 public class PlayerShip extends Ship {
     @Override
     protected ShipController createController() {

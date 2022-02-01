@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.TimeUtils;
 import yorkpirates.GameScreen;
 
+/**
+ * Water simulation for the background of the game world.
+ */
 @SuppressWarnings("FieldCanBeLocal") // Don't want to recalculate them every frame.
 public class WaterSim implements GameObject {
     private final int TIDE_RADIUS = 300;

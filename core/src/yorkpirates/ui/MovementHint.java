@@ -6,9 +6,16 @@ import com.badlogic.gdx.graphics.Texture;
 import yorkpirates.GameScreen;
 import yorkpirates.objects.GameObject;
 
+/**
+ * On-screen hint to inform the player about movement controls.
+ */
 public class MovementHint implements GameObject {
     private Texture tex;
 
+    /**
+     * Initialise the texture for the MovementHint to use
+     * @param game Main GameScreen
+     */
     @Override
     public void create(GameScreen game) {
         tex = new Texture(Gdx.files.internal("movementHint.png"));
@@ -19,6 +26,10 @@ public class MovementHint implements GameObject {
 
     }
 
+    /**
+     * Render the MovementHint in the corresponding GameScreen.
+     * @param game Main GameScreen
+     */
     @Override
     public void render(GameScreen game) {
         GameScreen.Batches batches = game.batches;
