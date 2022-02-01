@@ -6,11 +6,14 @@ import com.badlogic.gdx.graphics.Texture;
 import yorkpirates.GameScreen;
 
 /**
- * Fabric filter to be used on the background of the game world.
+ * Makes everything behind it seem to have a fabric-y texture.
  */
 public class FabricFilter implements GameObject {
     private final Texture fabric;
 
+    /**
+     * Creates a new FabricFilter.
+     */
     public FabricFilter() {
         fabric = new Texture(Gdx.files.internal("fabric.png"));
         fabric.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);

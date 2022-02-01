@@ -13,6 +13,9 @@ public class AIController implements ShipController {
     int health;
     Vector2 location;
 
+    /**
+     * Creates a new AIController.
+     */
     public AIController() {
         health = 20;
         location = new Vector2();

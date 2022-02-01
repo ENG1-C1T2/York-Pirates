@@ -29,6 +29,9 @@ public class GameScreen implements Screen {
     private final Array<GameObject> gameObjects;
     private Boolean paused;
 
+    /**
+     * Creates a new GameScreen, effectively a running instance of the game.
+     */
     public GameScreen() {
         events = new EventDispatcher(this);
         player = new PlayerShip();

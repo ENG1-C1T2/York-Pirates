@@ -1,24 +1,31 @@
 package yorkpirates.objects;
 
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import yorkpirates.GameScreen;
 
+/**
+ * A static line of text in the game world.
+ */
 public class Text implements GameObject {
-    private String message;
-    private int x;
-    private int y;
-    private int size;
+    private final String message;
+    private final int x;
+    private final int y;
 
     private final BitmapFont font = new BitmapFont();
 
-    public Text (String message, int x, int y, int size) {
+    /**
+     * Creates a new Text object.
+     * @param message The message to display.
+     * @param x The x position.
+     * @param y The y position.
+     * @param scale The font scale to use.
+     */
+    public Text (String message, int x, int y, int scale) {
         this.message = message;
         this.x = x;
         this.y = y;
-        this.size = size;
 
-        font.getData().setScale(size);
+        font.getData().setScale(scale);
     }
 
     @Override

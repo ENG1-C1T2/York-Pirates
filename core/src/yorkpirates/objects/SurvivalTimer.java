@@ -9,12 +9,9 @@ import yorkpirates.events.SurvivedFiveSeconds;
  * SurvivedFiveSeconds Event every five seconds.
  */
 public class SurvivalTimer implements GameObject {
-    private Timer timer;
-
     @Override
     public void create(GameScreen game) {
-        timer = new Timer();
-
+        Timer timer = new Timer();
         // Task repeats forever if repeatCount is negative.
         timer.scheduleTask(new Timer.Task() {
             @Override

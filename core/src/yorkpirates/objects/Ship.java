@@ -187,10 +187,18 @@ public abstract class Ship implements GameObject, HasTransform {
         return new Rectangle(transform);
     }
 
+    /**
+     * Get this ship's rotation.
+     * @return The rotation, in degrees counter-clockwise from East.
+     */
     public float getRotation() {
         return rotation;
     }
 
+    /**
+     * Get this ship's current velocity.
+     * @return The ship's velocity as a Vector2.
+     */
     public Vector2 getVelocity() {
         return new Vector2(velocity);
     }

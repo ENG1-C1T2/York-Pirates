@@ -12,16 +12,26 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import yorkpirates.GameScreen;
 
+/**
+ * A College is an entity in the world that the player can do combat with.
+ */
 public class College implements GameObject, HasTransform {
-    private int size;
-    private int x;
-    private int y;
+    private final int size;
+    private final int x;
+    private final int y;
     private long lastFired;
-    private ShapeRenderer shapeRenderer;
-    String name;
+    private final ShapeRenderer shapeRenderer;
+    private final String name;
     int state; // 0 = Ally, 1 = Destroyed, 2 = Enemy
     Rectangle transform;
 
+    /**
+     * Creates a new College.
+     * @param name The name to be displayed above it.
+     * @param x Its x position.
+     * @param y Its y position.
+     * @param state The college's starting state.
+     */
     public College (String name, double x, double y, int state) {
         this.name = name;
         this.x = (int)x;
@@ -32,7 +42,6 @@ public class College implements GameObject, HasTransform {
         size = 140;
 
         lastFired = 1000000000;
-
     }
 
     @Override
